@@ -25,8 +25,8 @@ func GetId(id string) (interface{}, error) {
 
 	row := conn.QueryRow("select id, nama, alamat from mahasiswa where id = ?;", id)
 	err = row.Scan(&mahasiswa.Id, &mahasiswa.Nama, &mahasiswa.Alamat)
+
 	if err != nil {
-		// If no results send null
 		result = gin.H{
 			"Output": "Data tidak ada",
 		}
@@ -37,7 +37,6 @@ func GetId(id string) (interface{}, error) {
 	}
 
 	return result, nil
-
 }
 func GetAll() (interface{}, error) {
 	conn, err := db.Connect()
@@ -49,6 +48,7 @@ func GetAll() (interface{}, error) {
 	if err != nil {
 		fmt.Print(err.Error())
 	}
+
 	for rows.Next() {
 		err = rows.Scan(&mahasiswa.Id, &mahasiswa.Nama, &mahasiswa.Alamat)
 		mahasiswas = append(mahasiswas, mahasiswa)
@@ -56,25 +56,28 @@ func GetAll() (interface{}, error) {
 			fmt.Print(err.Error())
 		}
 	}
+
 	defer rows.Close()
+
 	result = gin.H{
 		"Data":        mahasiswas,
 		"Jumlah Data": len(mahasiswas),
 	}
 	return result, nil
-
 }
 func AddData(id string, nama string, alamat string) (interface{}, error) {
 	conn, err := db.Connect()
 	if err != nil {
 		return nil, err
 	}
+
 	var buffer bytes.Buffer
 
 	stmt, err := conn.Prepare("insert into mahasiswa (id, nama, alamat) values(?,?,?);")
 	if err != nil {
 		fmt.Print(err.Error())
 	}
+
 	_, err = stmt.Exec(id, nama, alamat)
 
 	if err != nil {
