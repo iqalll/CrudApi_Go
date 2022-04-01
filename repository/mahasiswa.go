@@ -85,9 +85,8 @@ func AddData(id string, nama string, alamat string) (interface{}, error) {
 	buffer.WriteString(" ")
 	buffer.WriteString(alamat)
 	defer stmt.Close()
-	datane := buffer.String()
 	result = gin.H{
-		"Pesane": fmt.Sprintf(" Yeyyy Berhasil menambahkan Mahasiswa %s ", datane),
+		"Output": fmt.Sprintf("Berhasil menambahkan mahasiswa dengan nama %s ", nama),
 	}
 	return result, nil
 }
@@ -113,9 +112,8 @@ func UpdateData(id string, nama string, alamat string) (interface{}, error) {
 	buffer.WriteString(" ")
 	buffer.WriteString(alamat)
 	defer stmt.Close()
-	data := buffer.String()
 	result = gin.H{
-		"Notif": fmt.Sprintf("Berhasil Merubah Menjadi %s", data),
+		"Output": fmt.Sprintf("Berhasil update data mahasiswa dengan nama %s", nama),
 	}
 	return result, nil
 }
@@ -134,7 +132,7 @@ func DeleteData(id string) (interface{}, error) {
 		fmt.Print(err.Error())
 	}
 	result = gin.H{
-		"Pesane": fmt.Sprintf("Berhasil Menghapus %s", id),
+		"Pesane": fmt.Sprintf("Berhasil Menghapus data mahasiswa dengan nama %s", id),
 	}
 	return result, nil
 }
