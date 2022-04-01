@@ -17,14 +17,15 @@ func GetAll(c *gin.Context) {
 	result, _ := repository.GetAll()
 	c.JSON(http.StatusOK, result)
 }
+
 func AddData(c *gin.Context) {
 	id := c.PostForm("id")
 	nama := c.PostForm("nama")
 	alamat := c.PostForm("alamat")
 	result, _ := repository.AddData(id, nama, alamat)
-
 	c.JSON(http.StatusOK, result)
 }
+
 func UpdateData(c *gin.Context) {
 	id := c.PostForm("id")
 	nama := c.PostForm("nama")
@@ -32,6 +33,7 @@ func UpdateData(c *gin.Context) {
 	result, _ := repository.UpdateData(id, nama, alamat)
 	c.JSON(http.StatusOK, result)
 }
+
 func DeleteData(c *gin.Context) {
 	id := c.PostForm("id")
 	result, _ := repository.DeleteData(id)
