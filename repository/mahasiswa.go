@@ -28,13 +28,11 @@ func GetId(id string) (interface{}, error) {
 	if err != nil {
 		// If no results send null
 		result = gin.H{
-			"Hasile":  "Yahh Tidak ada data yang ditemukan",
-			"jumlahe": 0,
+			"Output": "Data tidak ada",
 		}
 	} else {
 		result = gin.H{
-			"Hasile":  mahasiswa,
-			"Jumlahe": 1,
+			"Output": mahasiswa,
 		}
 	}
 
