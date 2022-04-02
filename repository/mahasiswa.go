@@ -135,7 +135,7 @@ func DeleteData(id string) (interface{}, error) {
 		fmt.Print(err.Error())
 	}
 	result = gin.H{
-		"Pesane": fmt.Sprintf("Berhasil Menghapus data mahasiswa dengan nama %s", id),
+		"Output": fmt.Sprintf("Berhasil Menghapus data mahasiswa dengan id %s", id),
 	}
 	return result, nil
 }
