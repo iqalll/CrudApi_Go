@@ -25,21 +25,18 @@ func GetId(id string) (interface{}, error) {
 
 	row := conn.QueryRow("select id, nama, alamat from mahasiswa where id = ?;", id)
 	err = row.Scan(&mahasiswa.Id, &mahasiswa.Nama, &mahasiswa.Alamat)
+
 	if err != nil {
-		// If no results send null
 		result = gin.H{
-			"Hasile":  "Yahh Tidak ada data yang ditemukan",
-			"jumlahe": 0,
+			"Output": "Data tidak ada",
 		}
 	} else {
 		result = gin.H{
-			"Hasile":  mahasiswa,
-			"Jumlahe": 1,
+			"Output": mahasiswa,
 		}
 	}
 
 	return result, nil
-
 }
 func GetAll() (interface{}, error) {
 	conn, err := db.Connect()
@@ -51,6 +48,7 @@ func GetAll() (interface{}, error) {
 	if err != nil {
 		fmt.Print(err.Error())
 	}
+
 	for rows.Next() {
 		err = rows.Scan(&mahasiswa.Id, &mahasiswa.Nama, &mahasiswa.Alamat)
 		mahasiswas = append(mahasiswas, mahasiswa)
@@ -58,25 +56,28 @@ func GetAll() (interface{}, error) {
 			fmt.Print(err.Error())
 		}
 	}
+
 	defer rows.Close()
+
 	result = gin.H{
 		"Data":        mahasiswas,
 		"Jumlah Data": len(mahasiswas),
 	}
 	return result, nil
-
 }
 func AddData(id string, nama string, alamat string) (interface{}, error) {
 	conn, err := db.Connect()
 	if err != nil {
 		return nil, err
 	}
+
 	var buffer bytes.Buffer
 
 	stmt, err := conn.Prepare("insert into mahasiswa (id, nama, alamat) values(?,?,?);")
 	if err != nil {
 		fmt.Print(err.Error())
 	}
+
 	_, err = stmt.Exec(id, nama, alamat)
 
 	if err != nil {
@@ -87,9 +88,8 @@ func AddData(id string, nama string, alamat string) (interface{}, error) {
 	buffer.WriteString(" ")
 	buffer.WriteString(alamat)
 	defer stmt.Close()
-	datane := buffer.String()
 	result = gin.H{
-		"Pesane": fmt.Sprintf(" Yeyyy Berhasil menambahkan Mahasiswa %s ", datane),
+		"Output": fmt.Sprintf("Berhasil menambahkan mahasiswa dengan nama %s ", nama),
 	}
 	return result, nil
 }
@@ -115,9 +115,8 @@ func UpdateData(id string, nama string, alamat string) (interface{}, error) {
 	buffer.WriteString(" ")
 	buffer.WriteString(alamat)
 	defer stmt.Close()
-	data := buffer.String()
 	result = gin.H{
-		"Notif": fmt.Sprintf("Berhasil Merubah Menjadi %s", data),
+		"Output": fmt.Sprintf("Berhasil update data mahasiswa dengan nama %s", nama),
 	}
 	return result, nil
 }
@@ -136,7 +135,7 @@ func DeleteData(id string) (interface{}, error) {
 		fmt.Print(err.Error())
 	}
 	result = gin.H{
-		"Pesane": fmt.Sprintf("Berhasil Menghapus %s", id),
+		"Output": fmt.Sprintf("Berhasil Menghapus data mahasiswa dengan id %s", id),
 	}
 	return result, nil
 }
